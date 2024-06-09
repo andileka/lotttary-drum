@@ -30,16 +30,16 @@ describe("LotteryGame.vue", () => {
     wrapper.vm.balance = 0;
     await wrapper.vm.toggleSelection(1);
     expect(wrapper.find(".insufficient-balance-message").text()).toBe(
-      "Insufficient balance to select a ball."
+      "Insufficient balance to select tickets."
     );
   });
 
   it("correctly toggles selection", async () => {
     wrapper.vm.balance = 3;
     await wrapper.vm.toggleSelection(1);
-    expect(wrapper.vm.selectedBall).toBe(1);
+    expect(wrapper.vm.selectedBalls).toContain(1);
     await wrapper.vm.toggleSelection(1);
-    expect(wrapper.vm.selectedBall).toBeNull();
+    expect(wrapper.vm.selectedBalls).not.toContain(1);
   });
 
   it("starts the timer on mounted", () => {
@@ -49,16 +49,17 @@ describe("LotteryGame.vue", () => {
   });
 
   it("displays correct drawn number and updates balance correctly", async () => {
-    wrapper.vm.selectedBall = 1;
+    wrapper.vm.selectedBalls = [1];
     wrapper.vm.balance = 3;
 
     wrapper.vm.drawNumber = jest.fn(() => {
       wrapper.vm.drawnNumber = 1;
-      if (wrapper.vm.selectedBall === wrapper.vm.drawnNumber) {
-        wrapper.vm.balance += 1;
-        wrapper.vm.timerMessage = `Congratulations! You won €1 with ticket number 1`;
+      const ticketsCost = wrapper.vm.selectedBalls.length;
+      wrapper.vm.balance -= ticketsCost;
+      if (wrapper.vm.selectedBalls.includes(wrapper.vm.drawnNumber)) {
+        wrapper.vm.balance += 2;
+        wrapper.vm.timerMessage = `Congratulations! You won €2 with ticket number 1`;
       } else {
-        wrapper.vm.balance -= 1;
         wrapper.vm.timerMessage = `Sorry, you lost. The drawn number was ${wrapper.vm.drawnNumber}`;
       }
     });
@@ -70,20 +71,21 @@ describe("LotteryGame.vue", () => {
 
     // Verify the expectations
     expect(wrapper.vm.drawCount).toBe(1);
-    expect(wrapper.vm.balance).toBe(4);
+    expect(wrapper.vm.balance).toBe(4); // 3 (initial) - 1 (cost) + 2 (win) = 4
     expect(wrapper.vm.timerMessage).toContain(
-      "Congratulations! You won €1 with ticket number 1"
+      "Congratulations! You won €2 with ticket number 1"
     );
   });
 
   it("resets the timer and state after drawing a number", async () => {
     wrapper.vm.drawNumber = jest.fn(() => {
       wrapper.vm.drawnNumber = 1;
-      if (wrapper.vm.selectedBall === wrapper.vm.drawnNumber) {
-        wrapper.vm.balance += 1;
-        wrapper.vm.timerMessage = `Congratulations! You won €1 with ticket number 1`;
+      const ticketsCost = wrapper.vm.selectedBalls.length;
+      wrapper.vm.balance -= ticketsCost;
+      if (wrapper.vm.selectedBalls.includes(wrapper.vm.drawnNumber)) {
+        wrapper.vm.balance += 2;
+        wrapper.vm.timerMessage = `Congratulations! You won €2 with ticket number 1`;
       } else {
-        wrapper.vm.balance -= 1;
         wrapper.vm.timerMessage = `Sorry, you lost. The drawn number was ${wrapper.vm.drawnNumber}`;
       }
     });
@@ -96,7 +98,7 @@ describe("LotteryGame.vue", () => {
 
     // Verify the expectations
     expect(wrapper.vm.countdown).toBe(0);
-    expect(wrapper.vm.selectedBall).toBeNull();
+    expect(wrapper.vm.selectedBalls).toEqual([]);
     expect(wrapper.vm.buttonsDisabled).toBe(true);
   });
 
@@ -123,5 +125,5 @@ describe("LotteryGame.vue", () => {
     await wrapper.vm.$nextTick();
     wrapper.vm.updateTimerMessage();
     expect(wrapper.vm.timerMessage).toBe("The draw is in progress...");
-  });
+  })
 });

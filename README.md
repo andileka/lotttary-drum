@@ -6,7 +6,7 @@ Lottery Drum is an interactive application designed to simulate a lottery drawin
 
 ## How It Works
 - **Start the Application**: Once the app is running, users are greeted with the main interface featuring the lottery drum and buttons to initiate the draw.
-- **Drawing Numbers**: Users can click on the "Draw" button to start the lottery drum animation. The drum will spin and randomly select a number, displayed as a billiard ball.
+- **Drawing Numbers**: Users can click on the "Draw" button to start the lottery drum animation. The drum will spin and randomly select numbers, displayed as a billiard ball.
 - **User Feedback**: If the user has insufficient balance, a message in red will appear above the buttons indicating "insufficient balance."
 - **Responsive Design**: The app is fully responsive, ensuring a seamless experience on various devices and screen sizes.
 
@@ -15,33 +15,35 @@ Lottery Drum is an interactive application designed to simulate a lottery drawin
 - **Responsive Design**: The app is designed to be fully responsive and work seamlessly on different screen sizes.
 - **Billiard Balls Animation**: Animated billiard balls numbered 1 to 10, each with unique colors.
 - **User Feedback**: Displays messages such as "insufficient balance" above the buttons in red when applicable.
+- **Loading Animation**: A CSS-based loading animation featuring colored balls with numbers is displayed while the application is loading.
+
 
 ## Installation
 Clone the repository:
-```sh
+\`\`\`sh
 git clone https://github.com/yourusername/lottery-drum.git
 cd lottery-drum
-```
+\`\`\`
 
 Install dependencies using npm:
-```sh
+\`\`\`sh
 npm install
-```
+\`\`\`
 
 Or, if you prefer using Yarn:
-```sh
+\`\`\`sh
 yarn install
-```
+\`\`\`
 
 Start the development server:
-```sh
+\`\`\`sh
 npm run dev
-```
+\`\`\`
 
 Or with Yarn:
-```sh
+\`\`\`sh
 yarn dev
-```
+\`\`\`
 
 ## Usage
 - Open the application in your web browser by navigating to http://localhost:3000 (or the port specified in your development server).
@@ -52,14 +54,14 @@ yarn dev
 To run tests, use the following command:
 
 With npm:
-```sh
+\`\`\`sh
 npm test
-```
+\`\`\`
 
 Or with Yarn:
-```sh
+\`\`\`sh
 yarn test
-```
+\`\`\`
 
 ## Project Structure
 - **App.vue**: The main entry point for the application.
@@ -68,13 +70,13 @@ yarn test
 
 ## Simulating a Win
 To simulate a win by selecting a specific number, change the random function in your code from:
-```javascript
+\`\`\`javascript
 drawnNumber.value = Math.floor(Math.random() * 10) + 1;
-```
+\`\`\`
 to:
-```javascript
+\`\`\`javascript
 drawnNumber.value = "number that you want to win";
-```
+\`\`\`
 Replace "number that you want to win" with the desired winning number.
 
 ## Vue 3 + TypeScript + Vite
@@ -93,17 +95,17 @@ To contribute to the development of the Lottery Drum app, follow these steps:
 
 1. Fork the repository.
 2. Create a new branch:
-```sh
+\`\`\`sh
 git checkout -b feature/your-feature-name
-```
+\`\`\`
 3. Make your changes and commit them:
-```sh
+\`\`\`sh
 git commit -m 'Add some feature'
-```
+\`\`\`
 4. Push to the branch:
-```sh
+\`\`\`sh
 git push origin feature/your-feature-name
-```
+\`\`\`
 5. Open a pull request.
 
 ## License

@@ -13,14 +13,15 @@
         </p>
         <p class="balance">Balance: €{{ balance }}</p>
         <p class="selected-ball">
-          Selected Ticket: {{ selectedBall !== null ? selectedBall : "None" }}
+          Selected Tickets:
+          {{ selectedBalls.length > 0 ? selectedBalls.join(", ") : "None" }}
         </p>
       </div>
       <div class="bet-options">
         <button
           v-for="ball in 10"
           :key="ball"
-          :class="{ active: selectedBall === ball }"
+          :class="{ active: selectedBalls.includes(ball) }"
           @click="toggleSelection(ball)"
           :disabled="buttonsDisabled || countdown === 0"
         >
@@ -33,7 +34,7 @@
       <PixiAnimation
         :drawnNumber="drawnNumber"
         :timerStarted="timerStarted"
-        :selectedBall="selectedBall ?? 0"
+        :isWinning="isWinning"
         :drawCount="drawCount"
         @loadingComplete="startTimer"
       />
@@ -42,7 +43,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount, watch } from "vue";
+import {
+  defineComponent,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  watch,
+  computed,
+} from "vue";
 import PixiAnimation from "./PixiAnimation.vue";
 
 export default defineComponent({
@@ -51,7 +59,7 @@ export default defineComponent({
   },
   setup() {
     const balance = ref(3);
-    const selectedBall = ref<number | null>(null);
+    const selectedBalls = ref<number[]>([]);
     const countdown = ref(15);
     const timerMessage = ref(`Time left: ${countdown.value}`);
     const drawnNumber = ref<number>(1);
@@ -72,40 +80,45 @@ export default defineComponent({
 
     const toggleSelection = (ball: number) => {
       if (countdown.value > 0 && !buttonsDisabled.value) {
-        if (balance.value < 1) {
-          insufficientBalanceMessage.value =
-            "Insufficient balance to select a ball.";
-          setTimeout(() => {
-            insufficientBalanceMessage.value = null;
-          }, 2000);
-          return;
-        }
-        if (selectedBall.value === ball) {
-          selectedBall.value = null;
+        const index = selectedBalls.value.indexOf(ball);
+        if (index > -1) {
+          selectedBalls.value.splice(index, 1);
         } else {
-          selectedBall.value = ball;
+          if (selectedBalls.value.length < balance.value) {
+            selectedBalls.value.push(ball);
+          } else {
+            insufficientBalanceMessage.value =
+              "Insufficient balance to select tickets.";
+            setTimeout(() => {
+              insufficientBalanceMessage.value = null;
+            }, 2000);
+          }
         }
       }
     };
 
     const drawNumber = () => {
-      drawnNumber.value = Math.floor(Math.random() * 10) + 1;
+      drawnNumber.value = 4;
       drawCount.value += 1;
       buttonsDisabled.value = true;
-      if (selectedBall.value !== null) {
-        if (selectedBall.value === drawnNumber.value) {
-          balance.value += 1;
-          timerMessage.value = `Congratulations! You won €1 with ticket number ${drawnNumber.value}`;
+
+      const ticketsCost = selectedBalls.value.length;
+      balance.value -= ticketsCost;
+
+      if (selectedBalls.value.length > 0) {
+        if (selectedBalls.value.includes(drawnNumber.value)) {
+          balance.value += 2;
+          timerMessage.value = `Congratulations! You won €2 with ticket number ${drawnNumber.value}`;
         } else {
-          balance.value -= 1;
           timerMessage.value = `Sorry, you lost. The drawn number was ${drawnNumber.value}`;
         }
       } else {
         timerMessage.value = `Sorry, you didn't choose a ticket. The drawn number was ${drawnNumber.value}`;
       }
+
       setTimeout(() => {
         timerMessage.value = "The draw is in progress...";
-        selectedBall.value = null;
+        selectedBalls.value = [];
         countdown.value = 15;
         buttonsDisabled.value = false;
         updateTimerMessage();
@@ -160,9 +173,13 @@ export default defineComponent({
       { immediate: true }
     );
 
+    const isWinning = computed(() =>
+      selectedBalls.value.includes(drawnNumber.value)
+    );
+
     return {
       balance,
-      selectedBall,
+      selectedBalls,
       countdown,
       timerMessage,
       buttonsDisabled,
@@ -173,6 +190,7 @@ export default defineComponent({
       insufficientBalanceMessage,
       timerStarted,
       drawCount,
+      isWinning,
     };
   },
 });

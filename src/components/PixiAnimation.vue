@@ -1,7 +1,21 @@
 <template>
   <div class="gsap-animation" ref="container">
-    <div v-if="loading" class="loading-icon">Loading...</div>
-    <div class="coin-animation" ref="coinAnimationContainer"></div>
+    <div v-if="loading" class="loading-container">
+      <div class="loading">
+        <div
+          class="ball"
+          v-for="(color, index) in ballColors"
+          :key="index"
+          :style="{ backgroundColor: color }"
+        >
+          <span class="ball-number">{{ index + 1 }}</span>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="coin-animation" ref="coinAnimationContainer"></div>
+      <div ref="circleContainer"></div>
+    </div>
   </div>
 </template>
 
@@ -47,10 +61,9 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       required: true,
     },
-    selectedBall: {
-      type: Number as PropType<number>,
+    isWinning: {
+      type: Boolean as PropType<boolean>,
       required: true,
-      default: 0,
     },
     drawCount: {
       type: Number as PropType<number>,
@@ -82,6 +95,19 @@ export default defineComponent({
       ballImage8,
       ballImage9,
       ballImage10,
+    ];
+
+    const ballColors = [
+      "#FF0000", // Red
+      "#FF7F00", // Orange
+      "#FFFF00", // Yellow
+      "#00FF00", // Green
+      "#0000FF", // Blue
+      "#4B0082", // Indigo
+      "#8B00FF", // Violet
+      "#00FFFF", // Cyan
+      "#FFC0CB", // Pink
+      "#8B4513", // Brown
     ];
 
     const balls = ref<Array<PIXI.Sprite & { vx?: number; vy?: number }>>([]);
@@ -133,7 +159,7 @@ export default defineComponent({
 
             // Particle emitter configuration
             const config = {
-              lifetime: { min: 2, max: 4 },
+              lifetime: { min: 1, max: 4 },
               frequency: 0.03,
               spawnChance: 1,
               particlesPerWave: 2,
@@ -273,7 +299,10 @@ export default defineComponent({
       circle.addChild(lineContainer);
       circle.x = centerX;
       circle.y = centerY;
-      app.value?.stage.addChild(circle);
+      // Only add the circle to the stage if not loading
+      if (!loading.value) {
+        app.value?.stage.addChild(circle);
+      }
 
       // Animate line to rotate inside the circle
       gsap.to(lineContainer, {
@@ -377,8 +406,13 @@ export default defineComponent({
         setInterval(randomizeBallDirections, 500);
 
         // All assets are loaded, hide loading icon and emit event
-        loading.value = false;
-        emit("loadingComplete");
+        setTimeout(() => {
+          loading.value = false;
+          emit("loadingComplete");
+          if (app.value) {
+            app.value.stage.addChild(circle);
+          }
+        }, 5000);
       });
 
       // Watch for the drawCount to trigger the animation
@@ -406,7 +440,7 @@ export default defineComponent({
     const animateDrawnBall = (number: number) => {
       const ball = balls.value[number - 1];
 
-      if (props.selectedBall === number) {
+      if (props.isWinning) {
         showCoinAnimation.value = true;
         if (winnerSprite) {
           winnerSprite.visible = true;
@@ -424,7 +458,7 @@ export default defineComponent({
         ease: "power1.inOut",
         onComplete: () => {
           gsap.to(ball, {
-            duration: 4,
+            duration: 3,
             x: ball.x,
             y: ball.y,
             vx: 0,
@@ -432,7 +466,7 @@ export default defineComponent({
             ease: "none",
             onComplete: () => {
               gsap.to(ball, {
-                duration: 0,
+                duration: 1,
                 x: centerX,
                 y: centerY + Math.random() * radius * 2 - radius,
                 ease: "none",
@@ -489,6 +523,7 @@ export default defineComponent({
       coinAnimationContainer,
       loading,
       showCoinAnimation,
+      ballColors,
     };
   },
 });
@@ -516,12 +551,67 @@ export default defineComponent({
   transform: translate(-50%, -50%);
 }
 
-.loading-icon {
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  color: #000;
+}
+
+.loading {
+  display: flex;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  animation: snake 1s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+}
+
+.ball:nth-child(1) {
+  animation-delay: 0s;
+}
+.ball:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.ball:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.ball:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.ball:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes snake {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(20px, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  75% {
+    transform: translate(0, 20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 </style>
