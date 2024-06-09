@@ -28,30 +28,30 @@ Netlify: https://6666206cdf48c527bea1b251--steady-basbousa-cbaff9.netlify.app/
 ## Installation
 
 Clone the repository:
-\`\`\`sh
+```sh
 git clone https://github.com/yourusername/lottery-drum.git
 cd lottery-drum
-\`\`\`
+```
 
 Install dependencies using npm:
-\`\`\`sh
+```sh
 npm install
-\`\`\`
+```
 
 Or, if you prefer using Yarn:
-\`\`\`sh
+```sh
 yarn install
-\`\`\`
+```
 
 Start the development server:
-\`\`\`sh
+```sh
 npm run dev
-\`\`\`
+```
 
 Or with Yarn:
-\`\`\`sh
+```sh
 yarn dev
-\`\`\`
+```
 
 ## Usage
 
@@ -64,15 +64,14 @@ yarn dev
 To run tests, use the following command:
 
 With npm:
-\`\`\`sh
+```sh
 npm test
-\`\`\`
+```
 
 Or with Yarn:
-\`\`\`sh
+```sh
 yarn test
-\`\`\`
-
+```
 ## Project Structure
 
 - **App.vue**: The main entry point for the application.
@@ -82,13 +81,13 @@ yarn test
 ## Simulating a Win
 
 To simulate a win by selecting a specific number, change the random function in your code from:
-\`\`\`javascript
+```javascript
 drawnNumber.value = Math.floor(Math.random() \* 10) + 1;
-\`\`\`
+```
 to:
-\`\`\`javascript
+```javascript
 drawnNumber.value = "number that you want to win";
-\`\`\`
+```
 Replace "number that you want to win" with the desired winning number.
 
 ## Vue 3 + TypeScript + Vite
@@ -111,17 +110,17 @@ To contribute to the development of the Lottery Drum app, follow these steps:
 
 1. Fork the repository.
 2. Create a new branch:
-   \`\`\`sh
+  ```sh
    git checkout -b feature/your-feature-name
-   \`\`\`
+  ```
 3. Make your changes and commit them:
-   \`\`\`sh
+  ```sh
    git commit -m 'Add some feature'
-   \`\`\`
+  ```
 4. Push to the branch:
-   \`\`\`sh
+  ```sh
    git push origin feature/your-feature-name
-   \`\`\`
+ ```
 5. Open a pull request.
 
 ## License
