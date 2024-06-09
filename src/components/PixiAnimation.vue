@@ -115,6 +115,7 @@ export default defineComponent({
     let emitter: Emitter | null = null;
     let winnerSprite: PIXI.Sprite | null = null;
 
+    // Function to start coin animation
     const startCoinAnimation = () => {
       if (!coinAnimationContainer.value || !app.value) {
         console.error("coinAnimationContainer or app is null");
@@ -154,6 +155,7 @@ export default defineComponent({
             const emitterContainer = new PIXI.Container();
             app.value?.stage.addChild(emitterContainer);
 
+            // Particle emitter configuration
             const config = {
               lifetime: { min: 1, max: 4 },
               frequency: 0.03,
@@ -260,19 +262,21 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      // Create PixiJS application
       app.value = new PIXI.Application({
         width: glassImageDimensions.width,
         height: glassImageDimensions.height,
-        backgroundColor: 0x87ceeb,
+        backgroundColor: 0xf0f0f0,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
       });
 
       if (container.value && app.value) {
         container.value.appendChild(app.value.view);
-        resizeCanvas();
+        resizeCanvas(); // Initial resize to fit the container
       }
 
+      // Handle window resize
       window.addEventListener("resize", resizeCanvas);
 
       // Create a circular container
@@ -405,6 +409,7 @@ export default defineComponent({
         emit("loadingComplete");
         if (app.value) {
           app.value.stage.addChild(circle);
+          app.value.renderer.backgroundColor = 0x00ff00;
         }
       });
 
