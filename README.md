@@ -71,7 +71,7 @@ package.json              # Configuration file for npm, listing dependencies and
 vite.config.ts            # Configuration file for Vite, the build tool used for this project.
 README.md                 # This file, providing an overview and instructions for the project.
 
-
+```
 
 ## Usage
 
