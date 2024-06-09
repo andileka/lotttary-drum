@@ -27,14 +27,14 @@ import {
   onBeforeUnmount,
   watch,
   PropType,
-} from "vue"; // Importing necessary Vue functions and types
+} from "vue";
 
-import * as PIXI from "pixi.js"; // Importing PIXI.js library
-import { gsap } from "gsap"; // Importing GSAP for animations
-import { Emitter } from "@pixi/particle-emitter"; // Importing particle emitter from PixiJS
-import "@pixi/sprite-animated"; // Importing animated sprite support
+import * as PIXI from "pixi.js";
+import { gsap } from "gsap";
+import { Emitter } from "@pixi/particle-emitter";
+import "@pixi/sprite-animated"; //
 
-// Importing image assets
+
 import ballImage1 from "../assets/B1.png";
 import ballImage2 from "../assets/B2.png";
 import ballImage3 from "../assets/B3.png";
@@ -98,16 +98,15 @@ export default defineComponent({
     ];
 
     const ballColors = [
-      "#FF0000", // Red
-      "#FF7F00", // Orange
-      "#FFFF00", // Yellow
-      "#00FF00", // Green
-      "#0000FF", // Blue
-      "#4B0082", // Indigo
-      "#8B00FF", // Violet
-      "#00FFFF", // Cyan
-      "#FFC0CB", // Pink
-      "#8B4513", // Brown
+      "#FF0000",
+      "#FF7F00",
+      "#FFFF00",
+      "#0000FF",
+      "#4B0082",
+      "#8B00FF",
+      "#00FFFF",
+      "#FFC0CB",
+      "#8B4513",
     ];
 
     const balls = ref<Array<PIXI.Sprite & { vx?: number; vy?: number }>>([]);
@@ -117,7 +116,6 @@ export default defineComponent({
     let emitter: Emitter | null = null;
     let winnerSprite: PIXI.Sprite | null = null;
 
-    // Function to start coin animation
     const startCoinAnimation = () => {
       if (!coinAnimationContainer.value || !app.value) {
         console.error("coinAnimationContainer or app is null");
@@ -157,7 +155,6 @@ export default defineComponent({
             const emitterContainer = new PIXI.Container();
             app.value?.stage.addChild(emitterContainer);
 
-            // Particle emitter configuration
             const config = {
               lifetime: { min: 1, max: 4 },
               frequency: 0.03,
@@ -264,7 +261,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      // Create PixiJS application
+
       app.value = new PIXI.Application({
         width: glassImageDimensions.width,
         height: glassImageDimensions.height,
@@ -275,18 +272,15 @@ export default defineComponent({
 
       if (container.value && app.value) {
         container.value.appendChild(app.value.view);
-        resizeCanvas(); // Initial resize to fit the container
-      }
+        resizeCanvas();
 
-      // Handle window resize
       window.addEventListener("resize", resizeCanvas);
 
-      // Create a circular container
       const circle = new PIXI.Graphics();
-      circle.lineStyle(0); // Remove border
+      circle.lineStyle(0);
       circle.drawCircle(0, 0, radius);
 
-      // Create a white diagonal stick inside the big circle
+
       const stickLength = radius * 1.14;
       const diagonalLine = new PIXI.Graphics();
       diagonalLine.lineStyle(5, 0xffffff);
@@ -406,13 +400,13 @@ export default defineComponent({
         setInterval(randomizeBallDirections, 500);
 
         // All assets are loaded, hide loading icon and emit event
-        setTimeout(() => {
+
           loading.value = false;
           emit("loadingComplete");
           if (app.value) {
             app.value.stage.addChild(circle);
           }
-        }, 5000);
+
       });
 
       // Watch for the drawCount to trigger the animation

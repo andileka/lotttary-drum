@@ -98,7 +98,7 @@ export default defineComponent({
     };
 
     const drawNumber = () => {
-      drawnNumber.value = 4;
+      drawnNumber.value = Math.floor(Math.random() * 10) + 1;
       drawCount.value += 1;
       buttonsDisabled.value = true;
 
