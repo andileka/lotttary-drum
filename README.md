@@ -16,7 +16,8 @@ Lottery Drum is an interactive application designed to simulate a lottery drawin
 - **Billiard Balls Animation**: Animated billiard balls numbered 1 to 10, each with unique colors.
 - **User Feedback**: Displays messages such as "insufficient balance" above the buttons in red when applicable.
 - **Loading Animation**: A CSS-based loading animation featuring colored balls with numbers is displayed while the application is loading.
-
+- **GSAP for Ball Movement**: GSAP is used for the smooth movement of the balls within the application.
+- **pixi/particle-emitter for Winning Animation**: The winning animation is handled using the pixi/particle-emitter library.
 
 ## Installation
 Clone the repository:
