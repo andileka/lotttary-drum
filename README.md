@@ -52,22 +52,25 @@ Or with Yarn:
 ```sh
 yarn dev
 ```
-##Project Structure
+## Project Structure
+
 The project is organized as follows:
 
+```plaintext
 src/
-assets/: Contains static assets like images, fonts, and other media files.
-components/: Contains Vue components used throughout the application.
-PixiAnimation.vue: Handles the PixiJS animations for the lottery drum and billiard balls.
-LotteryGame.vue: Contains the logic and UI for the lottery game experience.
-App.vue: The main entry point for the application, setting up the basic layout and routing.
-main.ts: The entry point for the TypeScript application, initializing Vue and mounting the app.
-styles/: Contains global styles and CSS files.
-public/: Contains static files that are directly served by the server, like index.html.
-tests/: Contains test files for unit testing and integration testing.
-package.json: Configuration file for npm, listing dependencies and scripts.
-vite.config.ts: Configuration file for Vite, the build tool used for this project.
-README.md: This file, providing an overview and instructions for the project.
+  ├── assets/             # Contains static assets like images, fonts, and other media files.
+  ├── components/         # Contains Vue components used throughout the application.
+  │   ├── PixiAnimation.vue  # Handles the PixiJS animations for the lottery drum and billiard balls.
+  │   ├── LotteryGame.vue     # Contains the logic and UI for the lottery game experience.
+  ├── App.vue             # The main entry point for the application, setting up the basic layout and routing.
+  ├── main.ts             # The entry point for the TypeScript application, initializing Vue and mounting the app.
+  ├── styles/             # Contains global styles and CSS files.
+public/                   # Contains static files that are directly served by the server, like `index.html`.
+tests/                    # Contains test files for unit testing and integration testing.
+package.json              # Configuration file for npm, listing dependencies and scripts.
+vite.config.ts            # Configuration file for Vite, the build tool used for this project.
+README.md                 # This file, providing an overview and instructions for the project.
+
 ## Usage
 
 - Open the application in your web browser by navigating to http://localhost:3000 (or the port specified in your development server).
