@@ -34,7 +34,6 @@ import { gsap } from "gsap";
 import { Emitter } from "@pixi/particle-emitter";
 import "@pixi/sprite-animated"; //
 
-
 import ballImage1 from "../assets/B1.png";
 import ballImage2 from "../assets/B2.png";
 import ballImage3 from "../assets/B3.png";
@@ -261,7 +260,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-
       app.value = new PIXI.Application({
         width: glassImageDimensions.width,
         height: glassImageDimensions.height,
@@ -273,14 +271,16 @@ export default defineComponent({
       if (container.value && app.value) {
         container.value.appendChild(app.value.view);
         resizeCanvas();
+      }
 
       window.addEventListener("resize", resizeCanvas);
 
+      // Create a circular container
       const circle = new PIXI.Graphics();
-      circle.lineStyle(0);
+      circle.lineStyle(0); // Remove border
       circle.drawCircle(0, 0, radius);
 
-
+      // Create a white diagonal stick inside the big circle
       const stickLength = radius * 1.14;
       const diagonalLine = new PIXI.Graphics();
       diagonalLine.lineStyle(5, 0xffffff);
@@ -401,12 +401,11 @@ export default defineComponent({
 
         // All assets are loaded, hide loading icon and emit event
 
-          loading.value = false;
-          emit("loadingComplete");
-          if (app.value) {
-            app.value.stage.addChild(circle);
-          }
-
+        loading.value = false;
+        emit("loadingComplete");
+        if (app.value) {
+          app.value.stage.addChild(circle);
+        }
       });
 
       // Watch for the drawCount to trigger the animation
