@@ -271,10 +271,6 @@ export default defineComponent({
   cursor: not-allowed;
 }
 
-.bet-options button:hover:not(:disabled) {
-  background: #45a049;
-}
-
 .animations {
   flex: 2;
   display: flex;
