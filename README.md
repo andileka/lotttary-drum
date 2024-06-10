@@ -23,7 +23,7 @@ Lottery Drum is an interactive application designed to simulate a lottery drawin
 
 ## Preview
 
-Netlify: https://6666206cdf48c527bea1b251--steady-basbousa-cbaff9.netlify.app/
+Netlify: https://6666a4ecaa149e823a7b6071--steady-basbousa-cbaff9.netlify.app/
 
 ## Installation
 
